@@ -1,0 +1,116 @@
+
+{% extends "mogi/base.html" %}
+{% load mogi_extras %}
+{% block content %}
+<div class="grid cards">
+
+  <section class="card">
+    <div class="title">Current Mogi</div>
+    <div class="muted">Select drop down for track then the same for position.</div>
+    <div class="row" style="margin-top:8px">
+      <select id="track" style="flex:2;padding:10px;border-radius:10px;background:#0f1420;color:#fff;border:1px solid #223">
+        <option value="" disabled selected>Select track…</option>
+        {% for t in tracks %}
+    <!-- value uses canonical name; label shows pretty name -->
+          <option value="{{ t.name }}">{{ t.display_name }}</option>
+        {% endfor %}
+      </select>
+
+      <select id="pos" style="padding:10px;border-radius:10px;background:#0f1420;color:#fff;border:1px solid #223">
+        <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option>
+      </select>
+      <button class="btn primary" onclick="addRace()">Add</button>
+      <button class="btn" onclick="undo()">Undo</button>
+      <button class="btn" onclick="resetMogi()">Reset</button>
+      <button class="btn" onclick="finalize()">Finalize</button>
+    </div>
+
+    <div class="chips" id="chips">
+  {% for r in mogi.races.all %}
+    <div class="chip {{ r.css_class }}" title="{{ r.track.display_name }} • P{{ r.position }}">
+      <span class="idx">#{{ r.index }}</span>
+      <span class="main">{{ r.track.display_name }}</span>
+      <span class="pos">P{{ r.position }}</span>
+    </div>
+  {% empty %}
+    {% for i in "xxxxxxxxxxxx"|make_list %}
+      <div class="chip empty" title="Empty slot">
+        <span class="idx">#{{ forloop.counter }}</span>
+        <span class="main">Empty</span>
+      </div>
+    {% endfor %}
+  {% endfor %}
+</div>
+
+  </section>
+
+  <section class="card">
+    <style>
+    /* Scroll panel for Completed Mogis (desktop > mobile) */
+    .scroll-panel{
+      max-height: 60vh;              /* desktop: tall list */
+      overflow-y: auto;
+      padding-right: 6px;            /* keep chips from hugging scrollbar */
+    }
+    @media (max-width: 900px){
+      .scroll-panel{ max-height: 45vh; }
+    }
+    /* ensure names show (in case you had compact styles before) */
+    #dashboard-cards .chip .main{ display:inline; }
+    </style>
+
+  <div class="row" style="justify-content:space-between; align-items:center">
+    <div class="title">Completed Mogis                                    </div>
+    <div id="dash-sort" class="segmented">
+      <button data-sort="newest" class="active" onclick="swapDash('newest')">Newest</button>
+      <button data-sort="oldest" onclick="swapDash('oldest')">Oldest</button>
+    </div>
+  </div>
+
+  <div class="scroll-panel">
+    <div id="dashboard-cards">
+      {% include "mogi/includes/dashboard_cards.html" with completed=completed numbering_map=numbering_map %}
+    </div>
+  </div>
+</section>
+
+
+  <section class="card">
+  <div class="title">Top Tracks Globally (by avg finish — top 10)</div>
+  <table style="margin-top:8px">
+    <thead>
+      <tr>
+        <th>Track</th>
+        <th class="nowrap">Times</th>
+        <th class="nowrap">Avg Finish</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for t in track_perf %}
+        <tr>
+          <td><a href="{% url 'mogi:track_detail' t.slug %}">{{ t.display_name }}</a></td>
+          <td class="nowrap">{{ t.times }}</td>
+          <td class="nowrap">{{ t.avg_finish|floatformat:2 }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+
+
+
+</div>
+
+<script>
+async function post(url, data){
+  const res = await fetch(url, {method:'POST', headers:{'Content-Type':'application/json','X-CSRFToken':getCSRF()}, body:JSON.stringify(data||{})});
+  if(!res.ok){alert(await res.text()); throw new Error('bad');}
+  return res.json();
+}
+async function addRace(){const track=document.getElementById('track').value;const position=parseInt(document.getElementById('pos').value,10);if(!track){alert("Track required");return;}await post("{% url 'mogi:api_add' %}", {track, position});location.reload();}
+async function undo(){ await post("{% url 'mogi:api_undo' %}"); location.reload(); }
+async function resetMogi(){ if(confirm("Delete all 12?")){ await post("{% url 'mogi:api_reset' %}"); location.reload(); } }
+async function finalize(){ await post("{% url 'mogi:api_finalize' %}"); location.reload(); }
+async function swapDash(sort){ setActive('dash-sort', sort); const html = await htmlGET("{% url 'mogi:dashboard_cards_fragment' %}?sort="+sort); document.getElementById('dashboard-cards').innerHTML = html; }
+</script>
+{% endblock %}

@@ -1,0 +1,423 @@
+{
+  "history": [
+    {
+      "id": 1756270582489633,
+      "total": 82,
+      "scores": [
+        {
+          "place": 3,
+          "points": 10,
+          "track": "Koopa Troopa Beach"
+        },
+        {
+          "place": 7,
+          "points": 6,
+          "track": "Acorn Heights"
+        },
+        {
+          "place": 9,
+          "points": 4,
+          "track": "Mario Circuit"
+        },
+        {
+          "place": 3,
+          "points": 10,
+          "track": "Shy Guy Bazaar"
+        },
+        {
+          "place": 2,
+          "points": 12,
+          "track": "Bowser's Castle"
+        },
+        {
+          "place": 4,
+          "points": 9,
+          "track": "Airship Fortress"
+        },
+        {
+          "place": 2,
+          "points": 12,
+          "track": "Sky-High Sundae"
+        },
+        {
+          "place": 9,
+          "points": 4,
+          "track": "DK Pass"
+        },
+        {
+          "place": 9,
+          "points": 4,
+          "track": "Great ? Block Ruins"
+        },
+        {
+          "place": 12,
+          "points": 1,
+          "track": "Dino Dino Jungle"
+        },
+        {
+          "place": 9,
+          "points": 4,
+          "track": "Whistlestop Summit"
+        },
+        {
+          "place": 7,
+          "points": 6,
+          "track": "Faraway Oasis"
+        }
+      ],
+      "dateISO": "2025-08-27T04:56:22.489Z"
+    },
+    {
+      "id": 175626686151694,
+      "total": 56,
+      "scores": [
+        {
+          "place": 10,
+          "points": 3,
+          "track": "Bowser's Castle"
+        },
+        {
+          "place": 9,
+          "points": 4,
+          "track": "Boo Cinema"
+        },
+        {
+          "place": 12,
+          "points": 1,
+          "track": "Shy Guy Bazaar"
+        },
+        {
+          "place": 12,
+          "points": 1,
+          "track": "Wario Stadium"
+        },
+        {
+          "place": 6,
+          "points": 7,
+          "track": "Airship Fortress"
+        },
+        {
+          "place": 2,
+          "points": 12,
+          "track": "Sky-High Sundae"
+        },
+        {
+          "place": 7,
+          "points": 6,
+          "track": "Toad's Factory"
+        },
+        {
+          "place": 10,
+          "points": 3,
+          "track": "Dino Dino Jungle"
+        },
+        {
+          "place": 7,
+          "points": 6,
+          "track": "Mario Circuit"
+        },
+        {
+          "place": 4,
+          "points": 9,
+          "track": "DK Spaceport"
+        },
+        {
+          "place": 12,
+          "points": 1,
+          "track": "DK Pass"
+        },
+        {
+          "place": 10,
+          "points": 3,
+          "track": "Faraway Oasis"
+        }
+      ],
+      "dateISO": "2025-08-27T03:54:21.516Z"
+    },
+    {
+      "id": 1756180318363770,
+      "total": 82,
+      "scores": [
+        {
+          "place": 1,
+          "points": 15,
+          "track": "Airship Fortress"
+        },
+        {
+          "place": 5,
+          "points": 8,
+          "track": "Faraway Oasis"
+        },
+        {
+          "place": 11,
+          "points": 2,
+          "track": "DK Pass"
+        },
+        {
+          "place": 11,
+          "points": 2,
+          "track": "Dandelion Depths"
+        },
+        {
+          "place": 11,
+          "points": 2,
+          "track": "Bowser's Castle"
+        },
+        {
+          "place": 7,
+          "points": 6,
+          "track": "Sky-High Sundae"
+        },
+        {
+          "place": 8,
+          "points": 5,
+          "track": "Acorn Heights"
+        },
+        {
+          "place": 9,
+          "points": 4,
+          "track": "Crown City"
+        },
+        {
+          "place": 4,
+          "points": 9,
+          "track": "Wario Stadium"
+        },
+        {
+          "place": 1,
+          "points": 15,
+          "track": "Dino Dino Jungle"
+        },
+        {
+          "place": 6,
+          "points": 7,
+          "track": "Cheep Cheep Falls"
+        },
+        {
+          "place": 6,
+          "points": 7,
+          "track": "Great ? Block Ruins"
+        }
+      ],
+      "dateISO": "2025-08-26T03:51:58.363Z"
+    },
+    {
+      "id": 1756160931760,
+      "total": 61,
+      "scores": [
+        {
+          "place": 4,
+          "points": 9,
+          "track": "Sky-High Sundae"
+        },
+        {
+          "place": 11,
+          "points": 2,
+          "track": "Airship Fortress"
+        },
+        {
+          "place": 3,
+          "points": 10,
+          "track": "Bowser’s Castle"
+        },
+        {
+          "place": 11,
+          "points": 2,
+          "track": "Great Block Ruins"
+        },
+        {
+          "place": 6,
+          "points": 7,
+          "track": "Dino Dino Jungle"
+        },
+        {
+          "place": 4,
+          "points": 9,
+          "track": "Boo Cinema"
+        },
+        {
+          "place": 8,
+          "points": 5,
+          "track": "Faraway Oasis"
+        },
+        {
+          "place": 6,
+          "points": 7,
+          "track": "Dry Bones Burnout"
+        },
+        {
+          "place": 11,
+          "points": 2,
+          "track": "Acorn Heights"
+        },
+        {
+          "place": 12,
+          "points": 1,
+          "track": "Mario Circuit"
+        },
+        {
+          "place": 7,
+          "points": 6,
+          "track": "Shy Guy Bazaar"
+        },
+        {
+          "place": 12,
+          "points": 1,
+          "track": "Wario Stadium"
+        }
+      ],
+      "dateISO": "2025-08-25T22:28:51.760000Z"
+    },
+    {
+      "id": 1756137165718001,
+      "total": 126,
+      "scores": [
+        {
+          "place": 4,
+          "points": 9,
+          "track": "Airship Fortress"
+        },
+        {
+          "place": 2,
+          "points": 12,
+          "track": "Bowser’s Castle"
+        },
+        {
+          "place": 10,
+          "points": 3,
+          "track": "DK Pass"
+        },
+        {
+          "place": 1,
+          "points": 15,
+          "track": "Sky-High Sundae"
+        },
+        {
+          "place": 4,
+          "points": 9,
+          "track": "Cheep Cheep Falls"
+        },
+        {
+          "place": 2,
+          "points": 12,
+          "track": "Dry Bones Burnout"
+        },
+        {
+          "place": 5,
+          "points": 8,
+          "track": "Wario Stadium"
+        },
+        {
+          "place": 2,
+          "points": 12,
+          "track": "Shy Guy Bazaar"
+        },
+        {
+          "place": 2,
+          "points": 12,
+          "track": "Faraway Oasis"
+        },
+        {
+          "place": 1,
+          "points": 15,
+          "track": "Great Block Ruins"
+        },
+        {
+          "place": 4,
+          "points": 9,
+          "track": "Acorn Heights"
+        },
+        {
+          "place": 3,
+          "points": 10,
+          "track": "Rainbow Road"
+        }
+      ],
+      "dateISO": "2025-08-25T15:52:45.718000Z"
+    },
+    {
+      "id": 1756133332094000,
+      "total": 79,
+      "scores": [
+        {
+          "place": 12,
+          "points": 1,
+          "track": "Acorn Heights"
+        },
+        {
+          "place": 1,
+          "points": 15,
+          "track": "Airship Fortress"
+        },
+        {
+          "place": 1,
+          "points": 15,
+          "track": "Faraway Oasis"
+        },
+        {
+          "place": 3,
+          "points": 10,
+          "track": "Sky-High Sundae"
+        },
+        {
+          "place": 9,
+          "points": 4,
+          "track": "DK Spaceport"
+        },
+        {
+          "place": 4,
+          "points": 9,
+          "track": "Mario Bros. Circuit"
+        },
+        {
+          "place": 12,
+          "points": 1,
+          "track": "Bowser’s Castle"
+        },
+        {
+          "place": 9,
+          "points": 4,
+          "track": "DK Pass"
+        },
+        {
+          "place": 9,
+          "points": 4,
+          "track": "Wario Shipyard"
+        },
+        {
+          "place": 8,
+          "points": 5,
+          "track": "Shy Guy Bazaar"
+        },
+        {
+          "place": 7,
+          "points": 6,
+          "track": "Whistlestop Summit"
+        },
+        {
+          "place": 8,
+          "points": 5,
+          "track": "Peach Beach"
+        }
+      ],
+      "dateISO": "2025-08-25T14:48:52.094000Z"
+    }
+  ],
+  "current": {
+    "raceIndex": 0,
+    "scores": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  }
+}

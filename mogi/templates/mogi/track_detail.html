@@ -1,0 +1,71 @@
+{% extends "mogi/base.html" %}
+{% block content %}
+
+<div class="grid" style="gap:16px">
+
+  <!-- Overview card -->
+  <section class="card">
+    <div class="title">{{ track.display_name }}</div>
+    <div class="muted">Per-track stats (your races only)</div>
+
+    <ul style="margin-top:8px; line-height:1.6">
+      <li><strong>Times raced:</strong> {{ stats.times }}</li>
+      <li><strong>Average finish:</strong> {{ stats.avg_finish|floatformat:2 }}</li>
+      <li><strong>Best finish:</strong> P{{ stats.best }}</li>
+      <li><strong>Worst finish:</strong> P{{ stats.worst }}</li>
+      <li><strong>Total points:</strong> {{ stats.total_points }}</li>
+      <li><strong>Average points:</strong> {{ stats.avg_points|floatformat:2 }}</li>
+    </ul>
+  </section>
+
+  <!-- Finish distribution -->
+  <section class="card">
+    <div class="title">Finish Distribution</div>
+    <table style="margin-top:8px">
+      <thead>
+        <tr>
+          <th>Position</th>
+          <th>Times</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for pos, count in finish_dist %}
+          <tr>
+            <td>P{{ pos }}</td>
+            <td>{{ count }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </section>
+
+  <!-- Recent races -->
+  <section class="card">
+    <div class="title">Recent Races</div>
+    <table style="margin-top:8px">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Mogi</th>
+          <th>Position</th>
+          <th>Points</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for r in races|slice:":10" %}
+          <tr>
+            <td>{{ r.mogi.played_at|date:"Y-m-d H:i" }}</td>
+            <td><a href="{% url 'mogi:mogi_detail' r.mogi.id %}">#{{ r.mogi.id }}</a></td>
+            <td>P{{ r.position }}</td>
+            <td>{{ r.points }}</td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="4" class="muted">No races yet.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </section>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,79 @@
+{% extends "mogi/base.html" %}
+{% block content %}
+
+<div class="grid" style="gap:16px">
+
+  <!-- Header / summary -->
+  <section class="card">
+    <div class="row" style="justify-content:space-between;align-items:center">
+      <div>
+        <div class="title">Mogi Detail</div>
+        <div class="muted">
+          {{ mogi.played_at|date:"Y-m-d H:i" }} •
+          {% if mogi.finalized %}Finalized{% else %}Open{% endif %} •
+          {{ mogi.races.count }} / 12 races
+        </div>
+      </div>
+      <div class="row">
+        <a href="{% url 'mogi:dashboard' %}" class="btn">← Back</a>
+        {% if not mogi.finalized %}
+          <form method="post" action="{% url 'mogi:api_finalize' %}" onsubmit="return confirm('Finalize this mogi?');" style="margin:0">
+            {% csrf_token %}
+            <button class="btn primary" type="submit">Finalize</button>
+          </form>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+
+  <!-- Chips (pretty, compact) -->
+  <section class="card">
+    <div class="title">Races (chips)</div>
+    <div class="chips" style="margin-top:10px">
+      {% for r in mogi.races.all %}
+        <div class="chip {{ r.css_class }}" title="{{ r.track.display_name }} • P{{ r.position }}">
+          <span class="idx">#{{ r.index }}</span>
+          <span class="main">{{ r.track.display_name }}</span>
+          <span class="pos">P{{ r.position }}</span>
+        </div>
+      {% empty %}
+        {% for i in "xxxxxxxxxxxx"|make_list %}
+          <div class="chip empty" title="Empty slot">
+            <span class="idx">#{{ forloop.counter }}</span>
+            <span class="main">Empty</span>
+          </div>
+        {% endfor %}
+      {% endfor %}
+    </div>
+  </section>
+
+  <!-- Detailed table -->
+  <section class="card">
+    <div class="title">Races (table)</div>
+    <table style="margin-top:8px">
+      <thead>
+        <tr>
+          <th class="nowrap">#</th>
+          <th>Track</th>
+          <th class="nowrap">Position</th>
+          <th class="nowrap">Points</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for r in mogi.races.all %}
+          <tr>
+            <td class="nowrap">#{{ r.index }}</td>
+            <td>{{ r.track.display_name }}</td>
+            <td class="nowrap">P{{ r.position }}</td>
+            <td class="nowrap">{{ r.points }}</td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="4" class="muted">No races yet.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </section>
+
+</div>
+
+{% endblock %}

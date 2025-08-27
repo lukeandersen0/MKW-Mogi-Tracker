@@ -1,0 +1,182 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mogi Tracker</title>
+<style>
+  :root{
+    --bg:#0b0f16;--card:#121826;--fg:#e9eef7;--muted:#9fb0c3;--accent:#61dafb;--good:#3ddc97;--bad:#ff6b6b;
+    --ring:#233;--elev:0 6px 26px rgba(0,0,0,.35);
+  }
+
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;background:var(--bg);color:var(--fg);
+    font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Ubuntu,"Helvetica Neue",Arial;
+    line-height:1.35;
+  }
+
+  /* Wider desktop container */
+  header,main{max-width:1280px;margin:0 auto;padding:16px}
+  @media (min-width:1440px){ header,main{max-width:1400px} }
+
+  a{color:var(--accent);text-decoration:none}
+
+  /* Cards & responsive grid */
+  .grid{display:grid;gap:14px}
+  .cards{grid-template-columns:repeat(auto-fill,minmax(320px,1fr))}
+  @media (min-width:1200px){ .cards{grid-template-columns:repeat(auto-fill,minmax(380px,1fr))} }
+
+  .card{
+    background:var(--card);border-radius:16px;padding:16px;box-shadow:var(--elev);
+    border:1px solid #1b2335;
+  }
+  .card:hover{transform:translateY(-1px);transition:transform .15s ease}
+
+  .title{font-weight:700;font-size:16px}
+  @media (min-width:1024px){ .title{font-size:18px} }
+
+  .muted{color:var(--muted)}
+
+  .badge{
+    display:inline-block;padding:4px 10px;border-radius:999px;background:#1a2236;
+    font-size:12px;margin:2px 6px 2px 0;border:1px solid #213;
+  }
+
+  .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+
+  .btn{
+    display:inline-block;padding:10px 14px;border-radius:10px;background:#12192b;
+    color:var(--fg);font-weight:600;border:1px solid var(--ring);cursor:pointer
+  }
+  .btn.primary{background:var(--accent);color:#00243a;border-color:transparent}
+  .btn:active{transform:translateY(1px)}
+
+  /* Inputs look nicer on desktop */
+  input,select{
+    font:inherit;padding:10px;border-radius:10px;background:#0f1420;color:#fff;border:1px solid var(--ring)
+  }
+
+  /* 12 chips visible without inner scrolling; scales up on desktop */
+  .grid-compact{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px}
+  @media (min-width:768px){ .grid-compact{grid-template-columns:repeat(12,1fr);gap:8px} }
+
+  <style>
+  /* --- Chip facelift --- */
+  .chips { display:grid; grid-template-columns:repeat(12,1fr); gap:8px }
+  @media (max-width: 780px){ .chips{ grid-template-columns:repeat(6,1fr); gap:6px } }
+
+  .chip{
+    position:relative; padding:8px 6px 8px 30px; border-radius:10px;
+    background:#12192b; border:1px solid #2a3550; text-align:left; min-height:34px;
+    display:flex; align-items:center; gap:6px; overflow:hidden;
+  }
+  .chip .idx{
+    position:absolute; left:6px; top:50%; transform:translateY(-50%);
+    font-weight:700; font-size:11px; color:#a9b6c9; opacity:.85;
+    background:#0f1626; border:1px solid #26314a; border-radius:8px; padding:1px 6px;
+  }
+  .chip .main{
+  font-size:12px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  color:#dde6f5;
+  margin-left:6px;   /* 👈 add this */
+}
+
+  .chip .pos{ margin-left:auto; font-weight:700; font-size:12px; opacity:.9 }
+
+  /* state colors from r.css_class (good/bad) */
+  .chip.good{ border-color:#1c6; }
+  .chip.bad{ border-color:#c33; }
+
+  /* empty slots */
+  .chip.empty{
+    border-style:dashed; border-color:#2a3550; color:#9fb0c3; background:#0f1420;
+  }
+  .chip.empty .main{ color:#93a5bb }
+  .chip.empty .pos{ display:none }
+
+  /* tiny hover hint */
+  .chip[title]{ cursor:help }
+
+
+  .nowrap{white-space:nowrap}
+
+  .segmented{display:inline-flex;border:1px solid var(--ring);border-radius:10px;overflow:hidden}
+  .segmented button{border:0;background:#0f1420;color:#cde;padding:8px 12px;font-weight:600}
+  .segmented button.active{background:var(--accent);color:#00243a}
+
+  /* Compact chips for completed mogis */
+.chips.compact { grid-template-columns: repeat(12, 1fr); gap: 6px; }
+.chips.compact .chip { padding: 8px 6px 8px 28px; }
+.chips.compact .chip .main { display: none; }      /* hide long track name */
+.chips.compact .chip .idx { font-size: 10px; }     /* tiny badge */
+.chips.compact .chip .pos { font-size: 12px; }     /* show only P# on the right */
+@media (max-width: 780px){
+  .chips.compact { grid-template-columns: repeat(6, 1fr); gap: 6px; }
+}
+
+  /* Reserve a bit more room on the right so P# never clips */
+.chip{
+  padding: 8px 14px 8px 30px;   /* was 8px 6px 8px 30px -> add right padding */
+}
+
+/* Make the track name flex correctly (won't push the P# off) */
+.chip .main{
+  margin-left: 8px;             /* spacing after the # badge */
+  min-width: 0;                 /* allow text to shrink before overlapping */
+}
+
+/* Ensure the P# stays fully visible */
+.chip .pos{
+  flex: 0 0 auto;               /* don't let it shrink */
+  margin-left: auto;            /* keep it flush right */
+  padding-left: 6px;
+}
+
+/* When a list is scrollable, keep space for the scrollbar so chips don't get cut */
+.scroll-panel{
+  padding-right: 12px;          /* add gutter inside the panel */
+  scrollbar-gutter: stable;     /* reserve space for the scrollbar (Chromium/Edge/Firefox) */
+}
+
+</style>
+
+</head>
+<body>
+<header class="row" style="justify-content:space-between">
+  <div class="row" style="gap:14px">
+    <a href="{% url 'mogi:dashboard' %}" class="btn">Dashboard</a>
+    <a href="{% url 'mogi:mogi_list' %}" class="btn">Mogis</a>
+    <a href="{% url 'mogi:track_list' %}" class="btn">Tracks</a>
+    <a href="{% url 'mogi:race_history' %}" class="btn">History</a>
+    <a href="{% url 'mogi:all_time_stats' %}" class="btn">All-time</a>
+  </div>
+  <div class="row" style="gap:10px;align-items:center">
+    {% if request.user.is_authenticated %}
+      <span class="muted">Hi, {{ request.user.username }}</span>
+      <form method="post" action="{% url 'logout' %}" style="display:inline">
+  {% csrf_token %}
+  <button class="btn" type="submit">Logout</button>
+</form>
+
+    {% else %}
+      <a href="{% url 'login' %}" class="btn">Login</a>
+      <a href="{% url 'signup' %}" class="btn primary">Sign up</a>
+    {% endif %}
+  </div>
+</header>
+<main>{% block content %}{% endblock %}</main>
+
+<script>
+function getCSRF(){const m=document.cookie.match(/csrftoken=([^;]+)/);return m?m[1]:"";}
+async function htmlGET(url){const res=await fetch(url,{headers:{'X-Requested-With':'XMLHttpRequest'}});if(!res.ok){throw new Error(await res.text())}return res.text();}
+function setActive(btnGroupId, which){const g=document.getElementById(btnGroupId);if(!g)return;[...g.querySelectorAll('button')].forEach(b=>b.classList.toggle('active', b.dataset.sort===which));}
+</script>
+</body>
+</html>

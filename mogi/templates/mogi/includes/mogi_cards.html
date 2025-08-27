@@ -1,0 +1,19 @@
+
+{% load mogi_extras %}
+<div class="grid">
+  {% for m in mogis %}
+    <div class="card">
+      <div class="row" style="justify-content:space-between">
+        <div>#{{ numbering_map|get_item:m.id }} • {{ m.created_at|date:"Y-m-d H:i" }}</div>
+        <div>Total <b>{{ m.total_points }}</b> • Avg P <b>{{ m.avg_finish }}</b> • <a href="{% url 'mogi:mogi_detail' m.id %}">Open</a></div>
+      </div>
+      <div class="grid-compact" style="margin-top:6px">
+        {% for r in m.races.all %}
+          <div class="chip {{ r.css_class }}">#{{ r.index }} P{{ r.position }}</div>
+        {% endfor %}
+      </div>
+    </div>
+  {% empty %}
+    <div class="muted">No completed mogis.</div>
+  {% endfor %}
+</div>

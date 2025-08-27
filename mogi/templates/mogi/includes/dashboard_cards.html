@@ -1,0 +1,34 @@
+{% load mogi_extras %}
+
+{% for m in completed %}
+  <div class="card">
+    <div class="row" style="justify-content:space-between;align-items:center;gap:12px">
+      <div class="muted">
+        #{{ numbering_map|get_item:m.id }} • {{ m.played_at|date:"Y-m-d H:i" }}
+      </div>
+      <div class="muted">
+        Total: {{ m.total_points }} • Avg P: {{ m.avg_finish|floatformat:2 }} •
+        <a href="{% url 'mogi:mogi_detail' m.id %}">Open</a>
+      </div>
+    </div>
+
+    <div class="chips" style="margin-top:8px">
+      {% for r in m.races.all %}
+        <div class="chip {{ r.css_class }}" title="{{ r.track.display_name }} • P{{ r.position }}">
+          <span class="idx">#{{ r.index }}</span>
+          <span class="main">{{ r.track.display_name }}</span> {# hidden by compact CSS #}
+          <span class="pos">P{{ r.position }}</span>
+        </div>
+      {% empty %}
+        {% for i in "xxxxxxxxxxxx"|make_list %}
+          <div class="chip empty" title="Empty slot">
+            <span class="idx">#{{ forloop.counter }}</span>
+            <span class="main">Empty</span>
+          </div>
+        {% endfor %}
+      {% endfor %}
+    </div>
+  </div>
+{% empty %}
+  <div class="muted">No completed mogis yet.</div>
+{% endfor %}

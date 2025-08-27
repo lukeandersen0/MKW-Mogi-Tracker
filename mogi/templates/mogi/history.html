@@ -1,0 +1,22 @@
+
+{% extends "mogi/base.html" %}
+{% block content %}
+<div class="card"><div class="title">Your Race History </div></div>
+<table class="card">
+  <thead><tr><th>Date</th><th>Mogi</th><th>Race #</th><th>Track</th><th>Finish</th><th>Pts</th></tr></thead>
+  <tbody>
+    {% for r in races %}
+      <tr>
+        <td class="nowrap">{{ r.mogi.created_at|date:"Y-m-d H:i" }}</td>
+        <td><a href="{% url 'mogi:mogi_detail' r.mogi.id %}">Open</a></td>
+        <td>{{ r.index }}</td>
+        <td><a href="{% url 'mogi:track_detail' r.track.slug %}">{{ r.track.display_name }}</a></td>
+        <td>{{ r.position }}</td>
+        <td>{{ r.points }}</td>
+      </tr>
+    {% empty %}
+      <tr><td colspan="6" class="muted">No races yet.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

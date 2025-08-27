@@ -1,0 +1,44 @@
+# render.yaml — Mogi Tracker (Django + Gunicorn + WhiteNoise)
+services:
+  - type: web
+    name: mk-mogi-tracker        # <- change if you want a different service name
+    env: python
+    plan: free                   # or 'starter', 'standard' etc.
+    buildCommand: |
+      pip install -r requirements.txt
+      python manage.py collectstatic --noinput
+    startCommand: gunicorn project.wsgi:application --preload
+    autoDeploy: true
+    healthCheckPath: "/"
+    # Run migrations after each successful deploy
+    postDeployCommand: "python manage.py migrate"
+
+    envVars:
+      # Your settings.py expects these names:
+      - key: DJANGO_DEBUG
+        value: "0"
+      - key: DJANGO_SECRET_KEY
+        generateValue: true
+      # Use Render's external hostname so you don't have to hardcode it.
+      # (Render provides RENDER_EXTERNAL_HOSTNAME at runtime.)
+      - key: DJANGO_ALLOWED_HOSTS
+        value: "${RENDER_EXTERNAL_HOSTNAME}"
+      - key: DJANGO_CSRF_TRUSTED
+        value: "https://${RENDER_EXTERNAL_HOSTNAME}"
+      # Render sets RENDER internally; you don't need to supply it, but harmless if present:
+      # - key: RENDER
+      #   value: "true"
+
+      # Attach the managed Postgres and expose DATABASE_URL to Django
+      - key: DATABASE_URL
+        fromDatabase:
+          name: mk-mogi-db
+          property: connectionString
+
+      # Explicit Python version (optional but nice)
+      - key: PYTHON_VERSION
+        value: "3.11.9"
+
+databases:
+  - name: mk-mogi-db
+    plan: free

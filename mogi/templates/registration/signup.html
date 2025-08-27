@@ -1,0 +1,61 @@
+{% extends "mogi/base.html" %}
+{% block content %}
+
+<section class="card" style="max-width:460px; margin:0 auto">
+  <div class="title">Create an account</div>
+  <div class="muted">Use a unique username. </div>
+
+  <form method="post" style="margin-top:12px">
+    {% csrf_token %}
+
+    {# form-wide errors (e.g., username already exists) #}
+    {% if form.non_field_errors %}
+      <div class="alert" style="margin-bottom:10px">
+        {{ form.non_field_errors }}
+      </div>
+    {% endif %}
+
+    <div class="form" style="display:grid; gap:10px">
+
+      {# Render each field with label, widget, and errors #}
+      {% for field in form %}
+        <label for="{{ field.id_for_label }}" class="muted" style="font-weight:600">
+          {{ field.label }}
+        </label>
+        {{ field }}
+        {% if field.help_text %}
+          <div class="muted" style="font-size:12px">{{ field.help_text|safe }}</div>
+        {% endif %}
+        {% for err in field.errors %}
+          <div class="alert" style="margin-top:4px">{{ err }}</div>
+        {% endfor %}
+      {% endfor %}
+    </div>
+
+    <button type="submit" class="btn primary" style="margin-top:12px; width:100%">Sign up</button>
+
+    <div class="muted" style="margin-top:10px; text-align:center">
+      Already have an account?
+      <a href="{% url 'login' %}">Log in</a>
+    </div>
+  </form>
+</section>
+
+{# Optional minimal input styling to match your theme (safe to keep) #}
+<style>
+  form .form input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    background: #0f1420;
+    color: #fff;
+    border: 1px solid #223;
+    outline: none;
+  }
+  .alert {
+    background:#2a1220; border:1px solid #552033; color:#ffd7e1;
+    padding:8px 10px; border-radius:10px;
+  }
+</style>
+
+{% endblock %}

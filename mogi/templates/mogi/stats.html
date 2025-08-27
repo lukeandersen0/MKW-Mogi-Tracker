@@ -1,0 +1,44 @@
+
+{% extends "mogi/base.html" %}
+{% block content %}
+<div class="grid cards">
+  <div class="card">
+    <div class="title">Your All-time Overview</div>
+    <div class="row"><span class="badge">Completed Mogis: <b>{{ total_mogis }}</b></span>
+      <span class="badge">Total Races: <b>{{ total_races }}</b></span></div>
+  </div>
+
+  <div class="card">
+    <div class="title">Your Best Tracks (by total points)</div>
+    <table>
+      <thead><tr><th>Track</th><th>Times</th><th>Total</th><th>Avg Finish</th></tr></thead>
+      <tbody>
+        {% for t in best_tracks %}
+          <tr>
+            <td><a href="{% url 'mogi:track_detail' t.slug %}">{{ t.display_name }}</a></td>
+            <td>{{ t.times }}</td>
+            <td>{{ t.total_pts }}</td>
+            <td>{{ t.avg_finish|floatformat:2 }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="title">Your Toughest Tracks (highest avg finish #)</div>
+    <table>
+      <thead><tr><th>Track</th><th>Avg Finish</th><th>Times</th></tr></thead>
+      <tbody>
+        {% for w in worst_finishes %}
+          <tr>
+            <td>{{ w.track__name|title }}</td>
+            <td>{{ w.avg|floatformat:2 }}</td>
+            <td>{{ w.n }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

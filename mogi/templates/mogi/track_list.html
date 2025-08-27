@@ -1,0 +1,15 @@
+
+{% extends "mogi/base.html" %}
+{% block content %}
+<div class="card"><div class="title">Tracks</div></div>
+<div class="grid cards">
+  {% for t in tracks %}
+    <div class="card">
+      <div class="title"><a href="{% url 'mogi:track_detail' t.slug %}">{{ t.display_name }}</a></div>
+      <div class="muted">{{ t.rc }} races (global)</div>
+    </div>
+  {% empty %}
+    <div class="muted">No tracks yet.</div>
+  {% endfor %}
+</div>
+{% endblock %}

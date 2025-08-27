@@ -1,0 +1,24 @@
+
+{% extends "mogi/base.html" %}
+{% load mogi_extras %}
+{% block content %}
+<div class="row card" style="justify-content:space-between; align-items:center">
+  <div class="title">Completed Mogis </div>
+  <div id="list-sort" class="segmented">
+    <button data-sort="newest" class="active" onclick="swapList('newest')">Newest</button>
+    <button data-sort="oldest" onclick="swapList('oldest')">Oldest</button>
+  </div>
+</div>
+
+<div id="mogi-cards">
+  {% include "mogi/includes/mogi_cards.html" with mogis=mogis numbering_map=numbering_map %}
+</div>
+
+<script>
+async function swapList(sort){
+  setActive('list-sort', sort);
+  const html = await htmlGET("{% url 'mogi:mogi_cards_fragment' %}?sort="+sort);
+  document.getElementById('mogi-cards').innerHTML = html;
+}
+</script>
+{% endblock %}
