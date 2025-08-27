@@ -166,3 +166,14 @@ else:
     SESSION_COOKIE_SECURE = False
     CSRF_COOKIE_SECURE = False
 
+# Allow Render's external hostname automatically
+external_host = os.getenv("RENDER_EXTERNAL_HOSTNAME")
+# normalize any env-provided hosts
+ALLOWED_HOSTS = [h.strip() for h in ALLOWED_HOSTS if h.strip()]
+
+if external_host and external_host not in ALLOWED_HOSTS:
+    ALLOWED_HOSTS.append(external_host)
+
+# (Optional) also allow any *.onrender.com hosts (preview envs, etc.)
+if ".onrender.com" not in ALLOWED_HOSTS:
+    ALLOWED_HOSTS.append(".onrender.com")
