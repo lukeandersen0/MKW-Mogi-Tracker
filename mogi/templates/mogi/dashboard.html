@@ -25,6 +25,14 @@
       <button class="btn" onclick="finalize()">Finalize</button>
     </div>
 
+      <div class="mt-2" style="margin-top:8px;display:flex;gap:.5rem;align-items:center">
+    <span class="muted" style="opacity:.8">Running total:</span>
+    <span id="running-total"
+          style="display:inline-block;padding:.2rem .6rem;border-radius:999px;border:1px solid #2a4; background:#1b2a1b; font-weight:600;">
+      {{ total_points|default:0 }}
+    </span>
+  </div>
+
     <div class="chips" id="chips">
   {% for r in mogi.races.all %}
     <div class="chip {{ r.css_class }}" title="{{ r.track.display_name }} • P{{ r.position }}">

@@ -11,6 +11,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login as auth_login
 from django.shortcuts import render, redirect
 
+
+
 def signup(request):
     if request.user.is_authenticated:
         return redirect("mogi:dashboard")
@@ -30,6 +32,12 @@ def _current_mogi(user):
     m = Mogi.objects.filter(owner=user, finalized=False).order_by("created_at").first()
     return m or Mogi.objects.create(owner=user)
 
+def _current_mogi_points(user):
+    m = Mogi.objects.filter(owner=user, finalized=False).order_by("created_at").first()
+    if not m:
+        return 0
+    return Race.objects.filter(mogi=m).aggregate(t=Sum('points'))['t'] or 0
+
 def _mogi_numbering_map(user):
     ids_oldest_first = list(
         Mogi.objects.filter(owner=user, finalized=True)
@@ -47,7 +55,7 @@ def _sorted_mogis(user, sort: str):
 @login_required
 def dashboard(request):
     mogi = _current_mogi(request.user)
-    completed = _sorted_mogis(request.user, "newest")
+    completed = _sorted_mogis(request.user, sort="newest")
     numbering_map = _mogi_numbering_map(request.user)
 
     track_perf = (
@@ -57,10 +65,15 @@ def dashboard(request):
             avg_finish=Avg("races__position"),
         )
         .filter(times__gt=0)
-        .order_by("avg_finish", "name")[:10]  # Top 10, best avg first
+        .order_by("avg_finish", "name")[:10]  # Top 10 best avg first
     )
 
     tracks = Track.objects.all().order_by("name")
+
+    # 👇 Add this line for running total
+    total_points = Race.objects.filter(mogi=mogi).aggregate(
+        t=Sum("points")
+    )['t'] or 0
 
     return render(request, "mogi/dashboard.html", {
         "mogi": mogi,
@@ -68,6 +81,7 @@ def dashboard(request):
         "numbering_map": numbering_map,
         "track_perf": track_perf,
         "tracks": tracks,
+        "total_points": total_points,   # 👈 pass into template
     })
 
 @login_required
@@ -183,3 +197,12 @@ def signup(request):
     else:
         form = UserCreationForm()
     return render(request, "registration/signup.html", {"form": form})
+
+
+
+def running_totals(mogi_id):
+    return (Race.objects
+            .filter(mogi_id=mogi_id)
+            .values('track')
+            .annotate(points=Sum('points'))
+            .order_by('-points'))
