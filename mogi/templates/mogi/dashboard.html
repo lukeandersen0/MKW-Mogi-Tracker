@@ -121,4 +121,6 @@ async function resetMogi(){ if(confirm("Delete all 12?")){ await post("{% url 'm
 async function finalize(){ await post("{% url 'mogi:api_finalize' %}"); location.reload(); }
 async function swapDash(sort){ setActive('dash-sort', sort); const html = await htmlGET("{% url 'mogi:dashboard_cards_fragment' %}?sort="+sort); document.getElementById('dashboard-cards').innerHTML = html; }
 </script>
+<footer style="margin-top: 2rem; padding: 1rem; text-align: center; font-size: 0.85em; color: #aaa;">
+  Built by <strong style="color:#4ade80;">SafeBike</strong></footer>
 {% endblock %}
